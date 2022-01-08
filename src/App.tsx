@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 import AVAILABLE_WORDS from "./words";
 
@@ -7,6 +7,8 @@ const getRandomWord = () => {
     Math.floor(Math.random() * AVAILABLE_WORDS.length)
   ].toUpperCase();
 };
+
+type GuessResult = "correct" | "incorrect" | "wrong-spot" | "";
 
 export default function Index() {
   const [word, setWord] = useState(getRandomWord());
@@ -23,7 +25,7 @@ export default function Index() {
     ["", "", "", "", ""],
     ["", "", "", "", ""],
   ]);
-  const [guessResults, setGuessResults] = useState([
+  const [guessResults, setGuessResults] = useState<GuessResult[][]>([
     ["", "", "", "", ""],
     ["", "", "", "", ""],
     ["", "", "", "", ""],
@@ -32,14 +34,14 @@ export default function Index() {
     ["", "", "", "", ""],
   ]);
 
-  const handleGuessInput = (e) => {
+  const handleGuessInput = (e: ChangeEvent<HTMLInputElement>) => {
     const re = /^[A-Za-z]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
       setGuess(e.target.value);
     }
   };
 
-  const handleGuess = (e) => {
+  const handleGuess = (e: SyntheticEvent) => {
     e.preventDefault();
 
     /*
@@ -62,7 +64,7 @@ export default function Index() {
       .split("")
       .forEach((guessLetter, i) => {
         newGuesses[numGuessesSoFar][i] = guessLetter;
-        let result = "";
+        let result: GuessResult = "";
         if (guessLetter === word[i]) {
           result = "correct";
           totalCorrect++;
@@ -97,7 +99,7 @@ export default function Index() {
     setGuess("");
   };
 
-  const getStyles = (result) => {
+  const getStyles = (result: GuessResult) => {
     if (result === "correct") {
       return {
         color: "white",
@@ -144,8 +146,8 @@ export default function Index() {
   };
 
   return (
-    <div>
-      <h1>Wordle Clone</h1>
+    <div className="text-center">
+      <h1 className="text-3xl font-bold underline">Wordle Clone</h1>
 
       <div>
         {wordDoesntExist !== "" && (
@@ -176,10 +178,10 @@ export default function Index() {
                 name="guess"
                 value={guess}
                 onChange={handleGuessInput}
-                maxLength="5"
-                minLength="5"
+                maxLength={5}
+                minLength={5}
                 required
-                autocomplete="off"
+                autoComplete="off"
               />
               &nbsp;
               <button>Guess!</button>
