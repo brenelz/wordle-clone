@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 
 import AVAILABLE_WORDS from "./words";
 
@@ -11,6 +11,7 @@ const getRandomWord = () => {
 type GuessResult = "correct" | "incorrect" | "wrong-spot" | "";
 
 export default function Index() {
+  const guessElRef = useRef<HTMLInputElement>(null);
   const [word, setWord] = useState(getRandomWord());
   const [guess, setGuess] = useState("");
   const [hasWon, setHasWon] = useState(false);
@@ -107,6 +108,9 @@ export default function Index() {
 
     setNumGuessesSoFar(numGuessesSoFar + 1);
     setGuess("");
+    if (guessElRef.current) {
+      guessElRef.current.focus();
+    }
   };
 
   const getClassesForResults = (result: GuessResult) => {
@@ -205,6 +209,7 @@ export default function Index() {
                 minLength={5}
                 required
                 autoComplete="off"
+                ref={guessElRef}
               />
               <button className="px-6 py-2 mt-4 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm">
                 Guess!
