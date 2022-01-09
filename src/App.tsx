@@ -196,7 +196,7 @@ export default function Index() {
                 required
                 autoComplete="off"
               />
-              <button className="px-6 py-2 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm">
+              <button className="px-6 py-2 mt-4 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm">
                 Guess!
               </button>
             </p>
