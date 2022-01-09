@@ -3,6 +3,7 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import AVAILABLE_WORDS from "./words";
 
 const getRandomWord = () => {
+  return "CHUNK";
   return AVAILABLE_WORDS[
     Math.floor(Math.random() * AVAILABLE_WORDS.length)
   ].toUpperCase();
@@ -99,12 +100,9 @@ export default function Index() {
     setGuess("");
   };
 
-  const getStyles = (result: GuessResult) => {
+  const getClassesForResults = (result: GuessResult) => {
     if (result === "correct") {
-      return {
-        color: "white",
-        backgroundColor: "green",
-      };
+      return "text-white bg-orange-700";
     }
 
     if (result === "incorrect") {
@@ -112,10 +110,7 @@ export default function Index() {
     }
 
     if (result === "wrong-spot") {
-      return {
-        color: "black",
-        backgroundColor: "yellow",
-      };
+      return "bg-yellow-200";
     }
 
     return {};
@@ -146,33 +141,52 @@ export default function Index() {
   };
 
   return (
-    <div className="text-center">
-      <h1 className="text-3xl font-bold underline">Wordle Clone</h1>
+    <div className="container mx-auto max-w-md text-center text-orange-700">
+      <h1 className="text-4xl font-bold py-6">Wordle Clone</h1>
 
       <div>
         {wordDoesntExist !== "" && (
-          <p>"{wordDoesntExist}" does not exist. Try again.</p>
+          <p className="bg-orange-700 text-white p-2">
+            "{wordDoesntExist}" does not exist. Try again.
+          </p>
         )}
         {hasWon && (
-          <p>
-            You have won!{" "}
-            <button autoFocus onClick={playAgain}>
-              Play again
-            </button>
-          </p>
+          <>
+            <p className="bg-orange-700 text-white p-2">
+              You have won the game by guessing the word correctly 😀!{" "}
+            </p>
+            <p className="pt-4">
+              <button
+                className="px-6 py-2 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm"
+                autoFocus
+                onClick={playAgain}
+              >
+                Play again
+              </button>
+            </p>
+          </>
         )}
         {hasLost && (
-          <p>
-            You have lost :(. The word was {word} <br />
-            <button autoFocus onClick={playAgain}>
-              Play again
-            </button>
-          </p>
+          <>
+            <p className="bg-orange-700 text-white p-2">
+              You did not guess the world "{word}" correctly 😞
+            </p>
+            <p className="pt-4">
+              <button
+                className="px-6 py-2 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm"
+                autoFocus
+                onClick={playAgain}
+              >
+                Play again
+              </button>
+            </p>
+          </>
         )}
         {!hasWon && !hasLost && (
           <form onSubmit={handleGuess}>
             <p>
               <input
+                className="mx-4 border-orange-700"
                 autoFocus
                 type="text"
                 name="guess"
@@ -183,25 +197,22 @@ export default function Index() {
                 required
                 autoComplete="off"
               />
-              &nbsp;
-              <button>Guess!</button>
+              <button className="px-6 py-2 font-semibold text-sm bg-orange-700 hover:bg-orange-800 text-white rounded-full shadow-sm">
+                Guess!
+              </button>
             </p>
           </form>
         )}
 
-        <div>
+        <div className="w-full py-6 ">
           {guesses.map((row, y) => (
-            <div style={{ display: "flex" }} key={y}>
+            <div className="flex justify-center items-center" key={y}>
               {row.map((value, x) => (
                 <div
                   key={x}
-                  style={{
-                    width: "25px",
-                    height: "25px",
-                    padding: "10px",
-                    border: "1px solid black",
-                    ...getStyles(guessResults[y][x]),
-                  }}
+                  className={`${getClassesForResults(
+                    guessResults[y][x]
+                  )} flex justify-center font-bold text-3xl items-center w-16 h-16 border border-orange-700`}
                 >
                   {value}
                 </div>
@@ -210,8 +221,14 @@ export default function Index() {
           ))}
         </div>
       </div>
-      <p>
-        Inspired by <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>
+      <p className="text-slate-500">
+        Inspired by{" "}
+        <a
+          className="underline text-orange-700"
+          href="https://www.powerlanguage.co.uk/wordle/"
+        >
+          Wordle
+        </a>
       </p>
     </div>
   );
