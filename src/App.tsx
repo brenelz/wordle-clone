@@ -69,15 +69,25 @@ export default function Index() {
           result = "correct";
           totalCorrect++;
           correctLetters += guessLetter;
-        } else if (
-          !correctLetters.includes(guessLetter) &&
-          word.includes(guessLetter)
-        ) {
-          result = "wrong-spot";
         } else {
           result = "incorrect";
         }
         newGuessResults[numGuessesSoFar][i] = result;
+      });
+
+    guess
+      .toUpperCase()
+      .split("")
+      .forEach((guessLetter, i) => {
+        newGuesses[numGuessesSoFar][i] = guessLetter;
+        let result: GuessResult = "";
+        if (
+          !correctLetters.includes(guessLetter) &&
+          word.includes(guessLetter)
+        ) {
+          result = "wrong-spot";
+          newGuessResults[numGuessesSoFar][i] = result;
+        }
       });
 
     setGuesses(newGuesses);
