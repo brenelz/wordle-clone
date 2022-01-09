@@ -35,7 +35,7 @@ export default function Index() {
   ]);
 
   const handleGuessInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const re = /^[A-Za-z]{5}$/;
+    const re = /^[A-Za-z]{0,5}$/;
     if (e.target.value === "" || re.test(e.target.value)) {
       setGuess(e.target.value);
     }
