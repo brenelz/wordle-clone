@@ -3,7 +3,6 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import AVAILABLE_WORDS from "./words";
 
 const getRandomWord = () => {
-  return "CHUNK";
   return AVAILABLE_WORDS[
     Math.floor(Math.random() * AVAILABLE_WORDS.length)
   ].toUpperCase();
