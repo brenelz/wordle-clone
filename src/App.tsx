@@ -222,12 +222,16 @@ export default function Index() {
         </div>
       </div>
       <p className="text-slate-500">
-        Inspired by{" "}
+        inspired by{" "}
         <a
           className="underline text-orange-700"
           href="https://www.powerlanguage.co.uk/wordle/"
         >
-          Wordle
+          wordle
+        </a>{" "}
+        - built by{" "}
+        <a className="underline text-orange-700" href="https://brenelz.com">
+          brenelz
         </a>
       </p>
     </div>
