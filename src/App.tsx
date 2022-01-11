@@ -3,6 +3,7 @@ import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 import AVAILABLE_WORDS from "./words";
 
 const getRandomWord = () => {
+  return "CHUNK";
   return AVAILABLE_WORDS[
     Math.floor(Math.random() * AVAILABLE_WORDS.length)
   ].toUpperCase();
@@ -98,12 +99,12 @@ export default function Index() {
       setHasWon(true);
     } else {
       setHasWon(false);
-    }
 
-    if (numGuessesSoFar === 5) {
-      setHasLost(true);
-    } else {
-      setHasLost(false);
+      if (numGuessesSoFar === 5) {
+        setHasLost(true);
+      } else {
+        setHasLost(false);
+      }
     }
 
     setNumGuessesSoFar(numGuessesSoFar + 1);
