@@ -1,4 +1,28 @@
-export default [
+import { GuessResult } from "./Wordle";
+
+export const getRandomWord = () => {
+  return words[
+    Math.floor(Math.random() * words.length)
+  ].toUpperCase();
+};
+
+export const getClassesForResults = (result: GuessResult) => {
+  if (result === "correct") {
+    return "text-white bg-orange-700";
+  }
+
+  if (result === "incorrect") {
+    return {};
+  }
+
+  if (result === "wrong-spot") {
+    return "bg-yellow-200";
+  }
+
+  return {};
+};
+
+const words = [
   "marsh",
   "amber",
   "enter",
