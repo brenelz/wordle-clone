@@ -13,13 +13,12 @@ type WordleProps = {
 }
 
 export default function Wordle({ word, playAgain }: WordleProps) {
-    const [numGuessesSoFar, setNumGuessesSoFar] = useState(0);
     const [guesses, setGuesses] = useState<string[]>([]);
 
     let gameState: GameState = 'playing';
     if (guesses.includes(word)) {
         gameState = 'won';
-    } else if (numGuessesSoFar === 6) {
+    } else if (guesses.length === 6) {
         gameState = 'lost';
     }
 
@@ -28,7 +27,6 @@ export default function Wordle({ word, playAgain }: WordleProps) {
             ...guesses,
             guess.toUpperCase()
         ]);
-        setNumGuessesSoFar(numGuessesSoFar + 1);
     }
 
     return (
