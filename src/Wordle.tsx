@@ -3,7 +3,6 @@ import GameBoard from "./components/GameBoard";
 import GameLost from "./components/GameLost";
 import GameWon from "./components/GameWon";
 import GuessForm from './components/GuessForm';
-import { getClassesForResults } from "./words";
 
 export type GuessResult = "correct" | "incorrect" | "wrong-spot" | "";
 export type GameState = 'playing' | 'won' | 'lost';
@@ -14,74 +13,23 @@ type WordleProps = {
 }
 
 export default function Wordle({ word, playAgain }: WordleProps) {
-    const [totalCorrect, setTotalCorrect] = useState(0);
     const [numGuessesSoFar, setNumGuessesSoFar] = useState(0);
-    const [guesses, setGuesses] = useState([
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-    ]);
-    const [guessResults, setGuessResults] = useState<GuessResult[][]>([
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-        ["", "", "", "", ""],
-    ]);
+    const [guesses, setGuesses] = useState<string[]>([]);
 
     let gameState: GameState = 'playing';
-    if (totalCorrect === 5) {
+    if (guesses.includes(word)) {
         gameState = 'won';
     } else if (numGuessesSoFar === 6) {
         gameState = 'lost';
     }
 
     const handleGuess = (guess: string) => {
-        const newGuesses = [...guesses];
-        const newGuessResults = [...guessResults];
-        let totalCorrect = 0;
-        let correctLetters = "";
-
-        guess
-            .toUpperCase()
-            .split("")
-            .forEach((guessLetter, i) => {
-                newGuesses[numGuessesSoFar][i] = guessLetter;
-                let result: GuessResult = "";
-                if (guessLetter === word[i]) {
-                    result = "correct";
-                    totalCorrect++;
-                    correctLetters += guessLetter;
-                } else {
-                    result = "incorrect";
-                }
-                newGuessResults[numGuessesSoFar][i] = result;
-            });
-
-        guess
-            .toUpperCase()
-            .split("")
-            .forEach((guessLetter, i) => {
-                newGuesses[numGuessesSoFar][i] = guessLetter;
-                let result: GuessResult = "";
-                if (
-                    !correctLetters.includes(guessLetter) &&
-                    word.includes(guessLetter)
-                ) {
-                    result = "wrong-spot";
-                    newGuessResults[numGuessesSoFar][i] = result;
-                }
-            });
-
-        setGuesses(newGuesses);
-        setGuessResults(newGuessResults);
+        setGuesses([
+            ...guesses,
+            guess.toUpperCase()
+        ]);
         setNumGuessesSoFar(numGuessesSoFar + 1);
-        setTotalCorrect(totalCorrect);
-    };
+    }
 
     return (
         <div>
@@ -95,7 +43,7 @@ export default function Wordle({ word, playAgain }: WordleProps) {
                 <GuessForm handleGuess={handleGuess} />
             )}
 
-            <GameBoard guesses={guesses} guessResults={guessResults} />
+            <GameBoard word={word} guesses={guesses} />
         </div>
     );
 }

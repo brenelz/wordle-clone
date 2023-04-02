@@ -1,10 +1,28 @@
 import { GuessResult } from "./Wordle";
 
+export function range(size: number, startAt = 0) {
+  return [...Array(size).keys()].map(i => i + startAt);
+}
+
 export const getRandomWord = () => {
   return words[
     Math.floor(Math.random() * words.length)
   ].toUpperCase();
 };
+
+export function calculateResult(word: string, guessLetter: string, position: number) {
+  const correctLetter = word.slice(position, position + 1);
+
+  if (guessLetter === '') {
+    return '';
+  } else if (correctLetter === guessLetter) {
+    return 'correct';
+  } else if (word.includes(guessLetter)) {
+    return 'wrong-spot';
+  } else {
+    return 'incorrect';
+  }
+}
 
 export const getClassesForResults = (result: GuessResult) => {
   if (result === "correct") {
